@@ -18,6 +18,7 @@ defmodule AlienDemoWeb.Router do
 
     get "/", PageController, :index
     get "/aliens", AliensController, :index
+    get "/aliens/:name", AliensController, :is_alien
   end
 
   # Other scopes may use custom stacks.
