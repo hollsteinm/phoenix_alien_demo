@@ -24,6 +24,15 @@ defmodule AlienDemoWeb.Router do
     end
   end
 
+  #scoping both the route, the dynamic page pathing
+  #and the module namespace for the selected controllers
+  scope "/admin", AlienDemoWeb.Admin, as: :admin do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    resources "/comments", CommentsController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", AlienDemoWeb do
   #   pipe_through :api

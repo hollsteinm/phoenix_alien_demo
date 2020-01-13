@@ -1,0 +1,15 @@
+<div class="phx-hero">
+  <h1>Admin Panel</h1>
+  <p>Get to work on those alien things!</p>
+</div>
+
+<section class="row">
+  <article>
+    <h1>Comments</h1>
+    <div class="row">
+      <ul>
+        <li><a href="<%= Routes.admin_comments_path(@conn, :index, status: :pending_review) %>">Review All</a></li>
+      </ul>
+    </div>
+  </article>
+</section>
