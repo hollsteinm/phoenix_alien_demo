@@ -1,20 +1,10 @@
 defmodule AlienDemoWeb.Admin do
   @moduledoc """
-  The entrypoint for defining your web interface, such
-  as controllers, views, channels and so on.
-
-  This can be used in your application as:
-
-      use AlienDemoWeb.Admin, :controller
-      use AlienDemoWeb.Admin, :view
-
-  The definitions below will be executed for every view,
-  controller, etc, so keep them short and clean, focused
-  on imports, uses and aliases.
-
-  Do NOT define functions inside the quoted expressions
-  below. Instead, define any helper function in modules
-  and import those modules here.
+  The AlienDemoWeb.Admin module is a submodule helper for
+  AlienDemoWeb "admin" scoped controllers and views. This
+  simply makes the use statements in admin controllers and
+  views to import AlienDemoWeb.Admin scoped modules and
+  aliasing.
   """
 
   def controller do
@@ -42,21 +32,6 @@ defmodule AlienDemoWeb.Admin do
       import AlienDemoWeb.ErrorHelpers
       import AlienDemoWeb.Gettext
       alias AlienDemoWeb.Router.Helpers, as: Routes #use the route helpers provided by the root application
-    end
-  end
-
-  def router do
-    quote do
-      use Phoenix.Router
-      import Plug.Conn
-      import Phoenix.Controller
-    end
-  end
-
-  def channel do
-    quote do
-      use Phoenix.Channel
-      import AlienDemoWeb.Gettext
     end
   end
 
