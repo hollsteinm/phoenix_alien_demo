@@ -3,6 +3,7 @@ defmodule AlienDemoWeb.Admin.CommentsController do
 
   plug :fetch_comments
   plug :flash_comments_workload
+  plug :flash_HAL when action in [:show]
 
   def index(conn, _params) do
     render(conn, "index.html")
@@ -26,6 +27,10 @@ defmodule AlienDemoWeb.Admin.CommentsController do
     conn
     |> put_flash(:error, "I'm sorry Dave, I can't do that.")
     |> redirect(to: Routes.admin_comments_path(conn, :index))
+  end
+
+  defp flash_HAL(conn, _) do
+    put_flash(conn, :info, "Hello Admin")
   end
 
   # remember, pattern matching order of operations is top down
