@@ -1,0 +1,9 @@
+<div class="phx-hero">
+  <h2>Administrator Review</h2>
+</div>
+<h3><%= @comment.title %></h3>
+<p><%= @comment.content %></p>
+<h3>Comment Actions</h3>
+<div>
+  <a href='<%= Routes.admin_comments_path(@conn, :edit, @conn.params["id"]) %>'>Edit Comment</a>
+</div>

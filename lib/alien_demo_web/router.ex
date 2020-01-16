@@ -31,7 +31,7 @@ defmodule AlienDemoWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/comments", CommentsController
+    resources "/comments", CommentsController, except: [:new, :create]
   end
 
   # Other scopes may use custom stacks.
