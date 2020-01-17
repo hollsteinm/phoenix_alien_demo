@@ -2,7 +2,7 @@ defmodule AlienDemoWeb.Router do
   use AlienDemoWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
+    plug :accepts, ["html", "text"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
