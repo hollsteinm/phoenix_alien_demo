@@ -10,7 +10,10 @@ defmodule AlienDemoWeb.Admin.CommentsController do
   end
 
   def edit(conn, _params) do
-    render(conn, "edit.html")
+    conn
+    |> put_flash(:info, "Your name will be added to the changes")
+    |> put_layout("app-edit.html")
+    |> render("edit.html")
   end
 
   def show(conn, _params) do
