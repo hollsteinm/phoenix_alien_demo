@@ -35,7 +35,9 @@ defmodule AlienDemoWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", AlienDemoWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", AlienDemoWeb do
+    pipe_through :api
+
+    get "/saucers", SaucersAPIController, :get
+  end
 end
