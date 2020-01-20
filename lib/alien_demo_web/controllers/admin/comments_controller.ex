@@ -1,26 +1,32 @@
 defmodule AlienDemoWeb.Admin.CommentsController do
   use AlienDemoWeb.Admin, :controller
 
-  plug :fetch_comments
+  plug :fetch_comments when action in [:index]
   plug :flash_comments_workload
   plug :flash_HAL when action in [:show]
+
+  action_fallback AlienDemoWeb.ControllerErrorFallback
 
   def index(conn, _params) do
     render(conn, "index.html")
   end
 
-  def edit(conn, _params) do
-    conn
-    |> put_flash(:info, "Your name will be added to the changes")
-    |> put_layout("app-edit.html")
-    |> render("edit.html")
+  def edit(conn, %{"id" => comment_id }) do
+    with {:ok, comment} <- fake_fetch(comment_id) do
+      conn
+      |> put_flash(:info, "Your name will be added to the changes")
+      |> put_layout("app-edit.html")
+      |> render("edit.html", comment: comment)
+    end
   end
 
-  def show(conn, _params) do
-    render(conn, "show.html")
+  def show(conn, %{"id" => comment_id}) do
+    with {:ok, comment} <- fake_fetch(comment_id) do
+      render(conn, "show.html", comment: comment)
+    end
   end
 
-  def update(conn, %{ "id" => comment_id }) do
+  def update(conn, %{"id" => comment_id}) do
     conn
     |> put_flash(:info, "In a real world, I would have updated comment ##{comment_id}.")
     |> redirect(to: Routes.admin_comments_path(conn, :show, comment_id))
@@ -36,29 +42,41 @@ defmodule AlienDemoWeb.Admin.CommentsController do
     put_flash(conn, :info, "Hello Admin")
   end
 
-  # remember, pattern matching order of operations is top down
-  defp fetch_comments(conn, "123") do
-    assign(conn, :comment, %{
-      :title => "this is the title of the comment",
-      :content => "this is the content of the comment"
-    })
+  defp fake_fetch("123") do
+    {:ok,
+     %{
+       :title => "this is the title of the comment",
+       :content => "this is the content of the comment"
+     }}
   end
 
-  defp fetch_comments(conn, "124") do
-    assign(conn, :comment, %{
-      :title => "this is the title of another comment",
-      :content => "this is the content of another comment"
-    })
+  defp fake_fetch("124") do
+    {:ok,
+     %{
+       :title => "this is the title of another comment",
+       :content => "this is the content of another comment"
+     }}
   end
 
-  defp fetch_comments(conn, "125") do
-    assign(conn, :comment, %{
-      :title => "Lights over Lake Michigan",
-      :content => "I saw lights over Lake Michigan. Totally not a plane because they were spinning!"
-    })
+  defp fake_fetch("125") do
+    {:ok,
+     %{
+       :title => "Lights over Lake Michigan",
+       :content =>
+         "I saw lights over Lake Michigan. Totally not a plane because they were spinning!"
+     }}
   end
 
-  defp fetch_comments(conn, {:status, "pending_review"}) do
+  defp fake_fetch(_id) do
+    {:error, :not_found}
+  end
+
+  defp fetch_comments(
+         %Plug.Conn{
+           :query_params => %{"status" => "pending_review"}
+         } = conn,
+         _
+       ) do
     assign(conn, :comments, [
       %{
         :id => 123,
@@ -73,19 +91,25 @@ defmodule AlienDemoWeb.Admin.CommentsController do
     ])
   end
 
-  defp fetch_comments(%Plug.Conn{
-    :params => %{ "id" => comment_id }
-  } = conn, _) do
-    fetch_comments(conn, comment_id)
+  defp fetch_comments(
+         %Plug.Conn{
+           :params => %{"id" => comment_id}
+         } = conn,
+         _
+       ) do
+    with {:ok, comment} <- fake_fetch(comment_id) do
+      assign(conn, :comment, comment)
+    else
+      {:error, :not_found} ->
+        conn
+        |> put_status(:not_found)
+        |> put_view(ErrorView)
+        |> render("404.html")
+        |> halt()
+    end
   end
 
-  defp fetch_comments(%Plug.Conn{
-    :query_params => %{ "status" => status_query }
-  } = conn, _) do
-    fetch_comments(conn, { :status, status_query })
-  end
-
-  defp fetch_comments(conn, opts) when not is_bitstring(opts) do
+  defp fetch_comments(conn, _opts) do
     assign(conn, :comments, [
       %{
         :id => 123,
@@ -102,21 +126,21 @@ defmodule AlienDemoWeb.Admin.CommentsController do
       %{
         :id => 125,
         :title => "Lights over Lake Michigan",
-        :content => "I saw lights over Lake Michigan. Totally not a plane because they were spinning!",
+        :content =>
+          "I saw lights over Lake Michigan. Totally not a plane because they were spinning!",
         :status => "admin_approved"
       }
     ])
   end
 
-  defp fetch_comments(conn, invalid_comment_id) when is_bitstring(invalid_comment_id) and invalid_comment_id not in ["123", "124", "125"] do
-    text(conn, "#{invalid_comment_id} is not a valid id.")
-  end
-
-  defp flash_comments_workload(%Plug.Conn{
-    assigns: %{
-      :comments => comments
-    }
-  } = conn, _) do
+  defp flash_comments_workload(
+         %Plug.Conn{
+           assigns: %{
+             :comments => comments
+           }
+         } = conn,
+         _
+       ) do
     if length(comments) == 0 do
       conn |> put_flash(:info, "Congratulations, you have no work to do. Go find some aliens!")
     else
