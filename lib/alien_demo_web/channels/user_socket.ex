@@ -1,4 +1,4 @@
-defmodule AlienDemoWeb.UserSocket do
+defmodule AlienDemoWeb.ChatSocket do
   use Phoenix.Socket
 
   ## Channels
@@ -15,8 +15,19 @@ defmodule AlienDemoWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(%{"username" => username, "password" => password}, socket, _connect_info) do
+    with {:ok, user_id} <- login(username, password) do
+      socket
+      |> assign(:user_id, user_id)
+      |> assign(
+        :user_token,
+        Phoenix.Token.sign(AlienDemoWeb.Endpoint, "e5fg", user_id)
+      )
+
+      {:ok, socket}
+    else
+      {:error, :unauthenticated} -> :error
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
@@ -29,5 +40,13 @@ defmodule AlienDemoWeb.UserSocket do
   #     AlienDemoWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
+  def id(socket), do: "user_socket:user:#{socket.assigns.user_id}"
+
+  defp login(nil, nil) do
+    {:error, :unauthenticated}
+  end
+
+  defp login(_username, _password) do
+    {:ok, 0}
+  end
 end
