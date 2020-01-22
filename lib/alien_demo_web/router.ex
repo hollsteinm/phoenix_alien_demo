@@ -8,6 +8,7 @@ defmodule AlienDemoWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug AlienDemoWeb.Plugs.Locale, "en"
+    plug AlienDemoWeb.Plugs.AnonymousAuth, "alien"
   end
 
   pipeline :api do

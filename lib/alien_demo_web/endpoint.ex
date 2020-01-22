@@ -1,11 +1,11 @@
 defmodule AlienDemoWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :alien_demo
 
-  socket "/users", AlienDemoWeb.UserSocket,
+  socket "/sockets/users", AlienDemoWeb.UserSocket,
     websocket: true,
     longpoll: false
 
-  socket "/chat", AlienDemoWeb.ChatSocket,
+  socket "/sockets/chat", AlienDemoWeb.ChatSocket,
     websocket: true,
     longpoll: false
 
