@@ -1,0 +1,19 @@
+<section class="phx-hero">
+  <h2>Add New Saucer Type</h2>
+</section>
+
+<section>
+<%= form_for @conn, Routes.saucers_path(@conn, :create), fn f -> %>
+
+  <label>Saucer Name
+    <%= text_input f, :name, placeholder: "Saucer Name" %>
+  </label>
+  <label>Saucer Description
+    <%= text_input f, :description, placeholder: "Saucer Description - be very precise!" %>
+  </label>
+  <input type="submit" value="<%= gettext("Add New Saucer") %>">
+  <a href="<%= Routes.saucers_path(@conn, :index) %>"><%= gettext("Never Mind") %></a>
+  <input type="hidden" name="_method" value="post">
+
+<% end %>
+</section>

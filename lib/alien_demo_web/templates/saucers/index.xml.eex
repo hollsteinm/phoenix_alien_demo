@@ -1,0 +1,3 @@
+<saucers>
+<%= render_many @saucers, AlienDemoWeb.SaucersView, "show.xml", as: :saucer %>
+</saucers>

@@ -11,7 +11,7 @@ defmodule AlienDemoWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["json", "xml"]
   end
 
   scope "/", AlienDemoWeb do
@@ -20,7 +20,7 @@ defmodule AlienDemoWeb.Router do
     get "/", PageController, :index
     get "/aliens", AliensController, :index
     get "/aliens/:name", AliensController, :is_alien
-    resources "/saucers", SaucersController do
+    resources "/saucers", SaucersController, except: [:update, :delete, :edit] do
       resources "/comments", CommentsController
     end
   end
@@ -38,6 +38,6 @@ defmodule AlienDemoWeb.Router do
   scope "/api", AlienDemoWeb do
     pipe_through :api
 
-    get "/saucers", SaucersAPIController, :get
+    resources "/saucers", SaucersController, only: [:index, :show]
   end
 end

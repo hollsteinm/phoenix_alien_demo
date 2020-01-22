@@ -1,0 +1,5 @@
+<saucer>
+  <id><%= @saucer.id %></id>
+  <name><%= @saucer.name %></name>
+  <description><%= @saucer.description %></description>
+</saucer>

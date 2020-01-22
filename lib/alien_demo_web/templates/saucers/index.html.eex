@@ -1,0 +1,9 @@
+<section class="phx-hero">
+  <h2>Current Known Alien Saucers</h2>
+</section>
+
+<section>
+  <a href="<%= Routes.saucers_path(@conn, :new) %>">+ <%= gettext("Add Another Saucer") %></a>
+</section>
+
+<%= render_many @saucers, AlienDemoWeb.SaucersView, "show.html", %{ as: :saucer, conn: @conn } %>

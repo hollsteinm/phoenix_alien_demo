@@ -1,0 +1,5 @@
+BEGIN TRANSMISSION OBJECT SAUCER SINGLE
+ID <%= @saucer.id %>
+NAME "<%= @saucer.name %>"
+DESCRIPTION "<%= @saucer.description %>"
+END TRANSMISSION OBJECT SAUCER SINGLE

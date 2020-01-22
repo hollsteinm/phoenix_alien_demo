@@ -1,0 +1,3 @@
+BEGIN TRANSMISSION OBJECT SAUCER MANY
+<%= render_many @saucers, AlienDemoWeb.SaucersView, "show.text", as: :saucer %>
+END TRANSMISSION OBJECT SAUCER MANY

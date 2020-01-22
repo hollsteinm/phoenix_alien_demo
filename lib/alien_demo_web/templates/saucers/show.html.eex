@@ -1,0 +1,7 @@
+<section>
+  <h3><%= @saucer.name %></h3>
+  <p><%= @saucer.description %></p>
+  <a href="<%= Routes.saucers_path(@conn, :show, @saucer.id) %>"><%= gettext("View More") %></a>
+  <span> | </span>
+  <a href="<%= Routes.saucers_comments_path(@conn, :index, @saucer.id) %>"><%= format_comment_link_text(@saucer) %></a>
+</section>
