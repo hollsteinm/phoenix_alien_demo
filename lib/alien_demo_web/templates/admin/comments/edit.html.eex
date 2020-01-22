@@ -12,11 +12,11 @@
   <input type="submit" value="Submit Edits">
   <input type="hidden" name="_method" value="patch">
 
-<%= end %>
+<% end %>
 <div>
   <a href='<%= Routes.admin_comments_path(@conn, :show, @conn.params["id"]) %>'>Cancel Edit Comment</a>
   <%= form_for @conn, Routes.admin_comments_path(@conn, :delete, @conn.params["id"]), fn f -> %>
     <input type="submit" value="Delete this Comment">
     <input type="hidden" name="_method" value="delete">
-  <%= end %>
+  <% end %>
 </div>

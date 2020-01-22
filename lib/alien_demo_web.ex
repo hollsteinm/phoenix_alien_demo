@@ -41,6 +41,7 @@ defmodule AlienDemoWeb do
 
       import AlienDemoWeb.ErrorHelpers
       import AlienDemoWeb.Gettext
+      import AlienDemoWeb.FormateDateTime
       alias AlienDemoWeb.Router.Helpers, as: Routes
     end
   end

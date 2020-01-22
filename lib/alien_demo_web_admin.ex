@@ -31,6 +31,7 @@ defmodule AlienDemoWeb.Admin do
 
       import AlienDemoWeb.ErrorHelpers
       import AlienDemoWeb.Gettext
+      import AlienDemoWeb.FormateDateTime
       alias AlienDemoWeb.Router.Helpers, as: Routes #use the route helpers provided by the root application
     end
   end
