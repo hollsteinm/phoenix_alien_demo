@@ -1,4 +1,4 @@
-defmodule AlienDemoWeb.UserSocket do
+defmodule AlienDemoWeb.ChatSocket do
   use Phoenix.Socket
 
   def connect(%{"user_token" => user_token} , socket, _connect_info) do

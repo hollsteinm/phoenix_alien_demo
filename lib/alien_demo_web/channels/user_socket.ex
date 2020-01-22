@@ -1,4 +1,4 @@
-defmodule AlienDemoWeb.ChatSocket do
+defmodule AlienDemoWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
