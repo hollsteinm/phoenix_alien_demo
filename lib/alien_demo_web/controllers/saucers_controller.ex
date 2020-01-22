@@ -12,14 +12,16 @@ defmodule AlienDemoWeb.SaucersController do
         123,
         124,
         125
-      ]
+      ],
+      :reported_datetime => DateTime.utc_now()
     },
     %{
       :id => 1,
       :name => "rectangle",
       :description =>
         "commonly mistaken as a stealth bomber, the rectangle is an intimidating saucer",
-      :comment_ids => []
+      :comment_ids => [],
+      :reported_datetime => DateTime.utc_now()
     }
   ]
 

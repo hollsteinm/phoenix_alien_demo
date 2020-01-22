@@ -1,5 +1,6 @@
 <section>
   <h3><%= @saucer.name %></h3>
+  <p>Reported <%= render(AlienDemoWeb.SharedView, "datetime.html", datetime: @saucer.reported_datetime) %></p>
   <p><%= @saucer.description %></p>
   <a href="<%= Routes.saucers_path(@conn, :show, @saucer.id) %>"><%= gettext("View More") %></a>
   <span> | </span>

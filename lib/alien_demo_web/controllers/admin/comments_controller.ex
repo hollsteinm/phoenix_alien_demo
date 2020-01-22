@@ -48,7 +48,7 @@ defmodule AlienDemoWeb.Admin.CommentsController do
        :id => 123,
        :title => "this is the title of the comment",
        :content => "this is the content of the comment",
-       :submission_time => DateTime.utc_now
+       :submission_datetime => DateTime.utc_now
      }}
   end
 
@@ -58,7 +58,7 @@ defmodule AlienDemoWeb.Admin.CommentsController do
        :id => 124,
        :title => "this is the title of another comment",
        :content => "this is the content of another comment",
-       :submission_time => DateTime.utc_now
+       :submission_datetime => DateTime.utc_now
      }}
   end
 
@@ -69,7 +69,7 @@ defmodule AlienDemoWeb.Admin.CommentsController do
        :title => "Lights over Lake Michigan",
        :content =>
          "I saw lights over Lake Michigan. Totally not a plane because they were spinning!",
-         :submission_time => DateTime.utc_now
+         :submission_datetime => DateTime.utc_now
      }}
   end
 
@@ -88,13 +88,13 @@ defmodule AlienDemoWeb.Admin.CommentsController do
         :id => 123,
         :title => "this is the title of the comment",
         :content => "this is the content of the comment",
-        :submission_time => DateTime.utc_now
+        :submission_datetime => DateTime.utc_now
       },
       %{
         :id => 124,
         :title => "this is the title of another comment",
         :content => "this is the content of another comment",
-        :submission_time => DateTime.utc_now
+        :submission_datetime => DateTime.utc_now
       }
     ])
   end
@@ -124,14 +124,14 @@ defmodule AlienDemoWeb.Admin.CommentsController do
         :title => "this is the title of the comment",
         :content => "this is the content of the comment",
         :status => "pending_review",
-        :submission_time => DateTime.utc_now
+        :submission_datetime => DateTime.utc_now
       },
       %{
         :id => 124,
         :title => "this is the title of another comment",
         :content => "this is the content of another comment",
         :status => "pending_review",
-        :submission_time => DateTime.utc_now
+        :submission_datetime => DateTime.utc_now
       },
       %{
         :id => 125,
@@ -139,7 +139,7 @@ defmodule AlienDemoWeb.Admin.CommentsController do
         :content =>
           "I saw lights over Lake Michigan. Totally not a plane because they were spinning!",
         :status => "admin_approved",
-        :submission_time => DateTime.utc_now
+        :submission_datetime => DateTime.utc_now
       }
     ])
   end

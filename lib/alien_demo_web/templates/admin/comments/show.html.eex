@@ -1,6 +1,6 @@
 <section>
   <h2><%= @comment.title %></h2>
-  <p><%= submission_date(@comment) %></p>
+  <p><%= render(AlienDemoWeb.SharedView, "datetime.html", datetime: @comment.submission_datetime) %></p>
   <p><%= @comment.content %></p>
   <div>
     <a href='<%= Routes.admin_comments_path(@conn, :edit, @comment.id) %>'><%= gettext("Edit Comment") %></a>
