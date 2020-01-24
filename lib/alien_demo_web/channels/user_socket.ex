@@ -7,9 +7,7 @@ defmodule AlienDemoWeb.UserSocket do
 
   def connect(%{"user_token" => user_token}, socket, _connect_info) do
     with {:ok, user_id} <- login(user_token) do
-      assign(socket, :user_id, user_id)
-
-      {:ok, socket}
+      {:ok, assign(socket, :user_id, user_id)}
     else
       {:error, :unauthenticated} -> :error
       {:error, _} -> :error

@@ -11,9 +11,10 @@ defmodule AlienDemo.Application do
       # Start the Ecto repository
       AlienDemo.Repo,
       # Start the endpoint when the application starts
-      AlienDemoWeb.Endpoint
+      AlienDemoWeb.Endpoint,
       # Starts a worker by calling: AlienDemo.Worker.start_link(arg)
       # {AlienDemo.Worker, arg},
+      AlienDemoWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

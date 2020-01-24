@@ -6,7 +6,7 @@
 //
 // Pass the token on params as below. Or remove it
 // from the params if you are not using authentication.
-import { Socket } from "phoenix";
+import { Socket, Presence } from "phoenix";
 
 const socket = new Socket("/sockets/users", {
   params: { user_token: window.userToken }
@@ -31,13 +31,7 @@ userChannel
 const chatLobbyChannel = socket.channel("room:lobby", {
   user_id: window.userId
 });
-chatLobbyChannel
-  .join()
-  .receive("ok", resp => {
-    console.log("Joined lobby successfully", resp);
-  })
-  .receive("error", resp => {
-    console.log("Unable to join", resp);
-  });
 
-export { chatLobbyChannel, userChannel };
+const chatLobbyPresence = new Presence(chatLobbyChannel)
+
+export { chatLobbyChannel, userChannel, chatLobbyPresence };

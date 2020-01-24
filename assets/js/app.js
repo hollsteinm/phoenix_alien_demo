@@ -14,11 +14,34 @@ import "phoenix_html";
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
-import { chatLobbyChannel } from "./user_socket";
+import { chatLobbyChannel, chatLobbyPresence } from "./user_socket";
 
 class AlienDemoApp {
   static init() {
     const userId = window.userId;
+
+    function applyUserPresence(presence) {
+      let onlineUsers = 0;
+
+      presence.list(() => {
+        onlineUsers = onlineUsers + 1;
+      });
+
+      $("#chat-presence").html(`<span>Online Users: </span><b>${onlineUsers}</b>`);
+    }
+
+    chatLobbyPresence.onSync(() => applyUserPresence(chatLobbyPresence));
+
+    chatLobbyChannel
+      .join()
+      .receive("ok", resp => {
+        console.log("Joined lobby successfully", resp);
+      })
+      .receive("error", resp => {
+        console.log("Unable to join", resp);
+      });
+
+    //setup events and join channels
 
     const $input = $("#chat-input");
 
@@ -39,9 +62,8 @@ class AlienDemoApp {
       const sanUserId = this.sanitize(user_id);
       const sanContent = this.sanitize(content);
 
-      const userStyledText = user_id === userId ?
-        `<i>${sanUserId}:</i>` :
-        `<b>${sanUserId}:</b>`
+      const userStyledText =
+        user_id === userId ? `<i>${sanUserId}:</i>` : `<b>${sanUserId}:</b>`;
 
       $messageContainer.append(
         `<br>${userStyledText}<span>&nbsp;${sanContent}<span>`
