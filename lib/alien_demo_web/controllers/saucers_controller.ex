@@ -27,6 +27,10 @@ defmodule AlienDemoWeb.SaucersController do
     )
   end
 
+  def new(conn, _params) do
+    render(conn, "new.html")
+  end
+
   def show(conn, %{"id" => saucer_id}) do
     with {:ok,
           %Saucer{
