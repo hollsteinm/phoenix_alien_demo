@@ -1,5 +1,6 @@
 defmodule AlienDemoWeb.SaucersController do
   use AlienDemoWeb, :controller
+  alias AlienDemo.{Repo, Saucer}
 
   action_fallback AlienDemoWeb.ControllerErrorFallback
 
@@ -26,10 +27,21 @@ defmodule AlienDemoWeb.SaucersController do
   ]
 
   def index(conn, _params) do
-    with {:ok, saucers} <- fetch_saucers() do
-      conn
-      |> render(:index, saucers: saucers)
-    end
+    render(conn, :index,
+      saucers:
+        Enum.map(
+          Repo.all(Saucer),
+          fn %Saucer{title: name, content: description, submission_datetime: reported_datetime, id: id} ->
+            %{
+              :name => name,
+              :description => description,
+              :reported_datetime => reported_datetime,
+              :id => id,
+              :comment_ids => []
+            }
+          end
+        )
+    )
   end
 
   def show(conn, %{"id" => saucer_id}) do
@@ -43,10 +55,27 @@ defmodule AlienDemoWeb.SaucersController do
     render(conn, "new.html")
   end
 
-  def create(conn, _params) do
-    conn
-    |> put_flash(:error, gettext("Still can't create"))
-    |> redirect(to: Routes.saucers_path(conn, :index))
+  def create(conn, %{"name" => title, "description" => content}) do
+    with {:ok, _struct} <-
+           Repo.insert(%Saucer{
+             title: title,
+             content: content,
+             submission_datetime: DateTime.truncate(DateTime.utc_now(), :second)
+           }) do
+      conn
+      |> put_flash(:info, gettext("Saucer Submitted."))
+      |> redirect(to: Routes.saucers_path(conn, :index))
+    else
+      {:error, changeset} ->
+        error_string =
+          Map.values(changeset.errors)
+          |> Enum.map(fn {error, _} -> error end)
+          |> Enum.join(", ")
+
+        conn
+        |> put_flash(:error, error_string)
+        |> redirect(to: Routes.saucers_path(conn, :index))
+    end
   end
 
   defp fetch_saucers() do
