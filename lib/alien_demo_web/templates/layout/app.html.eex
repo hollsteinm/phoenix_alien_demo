@@ -5,8 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AlienDemo · Phoenix Framework</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script>window.userToken = "<%= assigns[:user_token] %>";</script>
+    <script>window.userId = "<%= assigns[:user_id] %>";</script>
   </head>
   <body>
     <header>
@@ -25,9 +27,19 @@
       </section>
     </header>
     <main role="main" class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= render @view_module, @view_template, assigns %>
+      <div style="width:100%;display:flex">
+        <div style="width:66%;">
+          <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+          <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+          <%= render @view_module, @view_template, assigns %>
+        </div>
+        <div style="width:33%;margin:0 0.5em;max-height:40em;min-height:10em;height:40em">
+          <div style="max-height:80%;height:80%;border: 0.25rem purple solid;padding:0 0.5em;overflow-y:scroll;" id="chat-output"></div>
+          <div style="height:20%;width:100%;margin-top:0.5em;">
+            <input id="chat-input" type="text"/>
+          </div>
+        </div>
+      </div>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>

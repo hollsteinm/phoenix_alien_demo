@@ -2,15 +2,12 @@ defmodule AlienDemoWeb.UserSocket do
   use Phoenix.Socket
 
   channel "users:*", AlienDemoWeb.UserChannel
+  channel "room:*", AlienDemoWeb.ChatRoomChannel
+  channel "private:*", AlienDemoWeb.ChatPrivateChannel
 
   def connect(%{"user_token" => user_token}, socket, _connect_info) do
     with {:ok, user_id} <- login(user_token) do
-      socket
-      |> assign(:user_id, user_id)
-      |> assign(
-        :user_token,
-        Phoenix.Token.sign(AlienDemoWeb.Endpoint, "567f", user_id)
-      )
+      assign(socket, :user_id, user_id)
 
       {:ok, socket}
     else
